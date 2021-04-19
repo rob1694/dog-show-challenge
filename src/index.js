@@ -1,7 +1,6 @@
  document.addEventListener('DOMContentLoaded', () => {
     getDogs()
         .then(showDogsOnTable())
-        .then(submitclick())
  })
 
 const initial_URL = 'http://localhost:3000/dogs'
@@ -40,8 +39,13 @@ function createTableInfo(dogData) {
     form.breed.value = dogData.breed;
     form.sex.value = dogData.sex;
     currentDog = dogData
-    }
-    )
+    })
+    // const submit = document.getElementById('Submit')
+    // submit.addEventListener('click', function(e) {
+    //     e.preventDefault()
+    //     editDog()
+    //})
+
 }
 
 function showDogsOnTable() {
@@ -52,32 +56,15 @@ function showDogsOnTable() {
     ))
 }
 
-
-
-// function editClick(dogRow) {
-//     const button = dogRow.getElementsByName('edit')
-//     button.addEventListener('click', editValues() )
-// }
-
-// function editValues(dog) {
-//     const form = document.getElementById('dog-form'),
-//     currentDog = {};
-
-//     form.name.value = dog.name;
-//     form.breed.value = dog.breed;
-//     form.sex.value = dog.sex;
-//     currentDog = dog
-// }
-
-function submitclick() {
-    const form = document.getElementById('dog-form')
-    form.addEventListener('click', function(e) {
+// function submitclick() {
+//     const form = document.getElementById('dog-form')
+//     form.addEventListener('click', function(e) {
         
-        e.preventDefault()
-        editDog(submit.id)
-        table.innerHTML = ''
-    })
-    }
+//         e.preventDefault()
+//         editDog(submit.id)
+//         table.innerHTML = ''
+//     })
+//     }
 
 // function submitValues(e) {
 //     const table = document.getElementById('dog-form')
@@ -101,7 +88,7 @@ function editDog(id) {
             sex: sex.value
         })
     }
-    fetch(`${initial_URL}${id}`, configObj)
+    fetch(`${initial_URL}/${id}`, configObj)
         .then(resp => resp.json())
 }
 
