@@ -1,6 +1,8 @@
-// document.addEventListener('DOMContentLoaded', () => {
-
-// })
+ document.addEventListener('DOMContentLoaded', () => {
+    getDogs()
+        .then(showDogsOnTable())
+        .then(submitclick())
+ })
 
 const initial_URL = 'http://localhost:3000/dogs'
 
@@ -30,53 +32,64 @@ function createTableInfo(dogData) {
     row.appendChild(buttonTD)
     table.appendChild(row)
 
-    return table;
+    button.addEventListener('click', function() {
+    const form = document.getElementById('dog-form');
+    let currentDog = {};
+
+    form.name.value = dogData.name;
+    form.breed.value = dogData.breed;
+    form.sex.value = dogData.sex;
+    currentDog = dogData
+    }
+    )
 }
 
 function showDogsOnTable() {
     getDogs().then(dogs => dogs.forEach(dog => {
         const dogRow = createTableInfo(dog)
-        editClick(dogRow)
         return dogRow;
-    }))
+    }
+    ))
 }
 
-getDogs().then(showDogsOnTable())
 
-function editClick(dogRow) {
-    const button = dogRow.getElementsByTagName('button')
-    button.addEventListener('click', editValues )
-}
 
-function editValues(dog) {
-    const name = document.getElementById('name'),
-    breed = document.getElementById('breed'),
-    sex = document.getElementById('sex'),
-    submit = document.getElementsByClassName('submit');
+// function editClick(dogRow) {
+//     const button = dogRow.getElementsByName('edit')
+//     button.addEventListener('click', editValues() )
+// }
 
-    name.value = dog.name;
-    breed.value = dog.breed;
-    sex.value = dog.sex;
-    submit.id = dog.id
-}
+// function editValues(dog) {
+//     const form = document.getElementById('dog-form'),
+//     currentDog = {};
+
+//     form.name.value = dog.name;
+//     form.breed.value = dog.breed;
+//     form.sex.value = dog.sex;
+//     currentDog = dog
+// }
 
 function submitclick() {
-    const submit = document.getElementsByClassName('submit')
-    submit.addEventListener('click', submitValues)
+    const form = document.getElementById('dog-form')
+    form.addEventListener('click', function(e) {
+        
+        e.preventDefault()
+        editDog(submit.id)
+        table.innerHTML = ''
+    })
     }
 
-function submitValues(e) {
-    const table = document.getElementById('table-body')
-    e.preventDefault()
-    editDog(submit.id)
-    table.innerHTML = ''
-    showDogsOnTable()
-}
+// function submitValues(e) {
+//     const table = document.getElementById('dog-form')
+//     e.preventDefault()
+//     editDog(submit.id)
+//     table.innerHTML = ''
+// }
 
 function editDog(id) {
-    const name = document.getElementById('name');
-    const breed = document.getElementById('breed');
-    const sex = document.getElementById('sex');
+    const name = document.getElementsByName('name');
+    const breed = document.getElementsByName('breed');
+    const sex = document.getElementsByName('sex');
     const configObj = {
         method: 'PATCH',
         headers: {
@@ -92,4 +105,3 @@ function editDog(id) {
         .then(resp => resp.json())
 }
 
-submitclick();
